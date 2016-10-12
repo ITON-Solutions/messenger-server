@@ -13,11 +13,8 @@ import org.iton.messenger.server.session.MTSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 
 import static org.iton.messenger.proto.secure.CryptoUtils.arrayEq;
-import static org.iton.messenger.core.utils.StreamingUtils.readLong;
 
 /**
  * Created by ITON Solutions on 8/29/15.
@@ -25,8 +22,6 @@ import static org.iton.messenger.core.utils.StreamingUtils.readLong;
 public class MTSessionManager implements IMTSessionManager {
 
     private static final InternalLogger log = InternalLoggerFactory.getInstance(MTSessionManager.class);
-
-    private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     private static volatile ChannelGroup channels      = null;
     private static volatile IMTSessionManager instance = null;
@@ -45,6 +40,20 @@ public class MTSessionManager implements IMTSessionManager {
         return local;
     }
 
+    @Override
+    public List<Channel> getChannels(int user_id) throws IOException {
+
+        List<Channel> result = new ArrayList<>();
+        for (Channel channel : channels) {
+            MTSession session = channel.attr(MessengerServer.SESSION).get();
+            if (session.getUser() != null && session.getUser().getId() == user_id) {
+                result.add(channel);
+            }
+        }
+        return result;
+    }
+
+    @Override
     public List<Channel> getChannels(byte[] sessionId) {
         List<Channel> result = new ArrayList<>();
         for (Channel channel : channels) {
@@ -70,7 +79,9 @@ public class MTSessionManager implements IMTSessionManager {
         List<MTSession> sessions = new ArrayList<>();
         for (Channel channel : channels) {
             MTSession session = channel.attr(MessengerServer.SESSION).get();
-            sessions.add(session);
+            if(session != null) {
+                sessions.add(session);
+            }
         }
         return sessions;
     }

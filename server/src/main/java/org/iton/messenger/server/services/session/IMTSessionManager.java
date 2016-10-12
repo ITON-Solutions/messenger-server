@@ -13,6 +13,8 @@ public interface IMTSessionManager {
 
     public List<MTSession> getAllMTSessions();
 
+    public List<Channel> getChannels(int user_id) throws IOException;
+
     public MTSession getMTSession(Channel channel);
 
     public boolean addChannel(Channel channel);
