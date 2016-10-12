@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+    <persistence version="2.0"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+                 xmlns="http://java.sun.com/xml/ns/persistence">
+        <persistence-unit name="iton" transaction-type="RESOURCE_LOCAL">
+            <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+
+            <class>org.iton.messenger.model.entities.ETAuthorization</class>
+            <class>org.iton.messenger.model.entities.ETUser</class>
+            <class>org.iton.messenger.model.entities.ETContact</class>
+            <class>org.iton.messenger.model.entities.ETMessage</class>
+            <class>org.iton.messenger.model.entities.ETParams</class>
+            <class>org.iton.messenger.model.entities.ETWallPaper</class>
+
+            <exclude-unlisted-classes>true</exclude-unlisted-classes>
+            <properties>
+                <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+                <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/iton_telegram" />
+                <property name="javax.persistence.jdbc.user" value="username" />
+                <property name="javax.persistence.jdbc.password" value="password" />
+                <property name="eclipselink.ddl-generation" value="create-or-extend-tables" />
+                <property name="eclipselink.ddl-generation.output-mode" value="database" />
+                <property name="eclipselink.logging.level" value="INFO" />
+                <property name="eclipselink.logging.level.sql" value="FINEST" />
+                <property name="eclipselink.logging.parameters" value="true" />
+            </properties>
+        </persistence-unit>
+    </persistence>
+
